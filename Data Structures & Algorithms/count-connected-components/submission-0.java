@@ -1,0 +1,43 @@
+class Solution {
+    public int countComponents(int n, int[][] edges) {
+
+         int count = 0;
+        List<List<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            graph.add(new ArrayList<>());
+
+        }
+        for (int[] edge : edges) {
+            graph.get(edge[0]).add(edge[1]);
+            graph.get(edge[1]).add(edge[0]);
+        }
+        boolean[] visited = new boolean[n];
+        for (int i = 0; i < n; i++) {
+            
+            if (!visited[i]) {
+                 bfs(graph, i, visited);
+                count++;
+            }
+        }
+
+
+        return count;
+
+    }
+
+    private static void bfs(List<List<Integer>> graph, int i, boolean[] visited) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(i);
+
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            if (!visited[node]) {
+                visited[node] = true;
+                for (int next : graph.get(node)) {
+                    queue.offer(next);
+                }
+            }
+
+        }
+    }
+}
